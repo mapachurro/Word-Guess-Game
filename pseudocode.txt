@@ -1,0 +1,16 @@
+HANGMAN HOTH: ICE PLANET
+
+Object of the Game: Guess what word is hidden in the empty spaces.
+
+Gameplay: You play by guessing the letters, typing them on the keyboard. When you guess correctly, the spaces that have the letter that you guessed will be revealed.
+However, when you guess incorrectly, one of your seven incorrect guesses is eliminated: one guess each for head, torso, each arm, each leg -- and your lightsaber, your
+last-ditch chance at saving yourself from being TORN LIMB FROM LIMB BY THE WAMPA.
+
+Remember, the fate of the Rebellion literally hangs in the balance -- literally.
+
+
+coding:
+
+-establish word bank
+-words will be strings [?]
+-use onkeyup function or similar to detect user input
