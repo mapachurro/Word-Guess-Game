@@ -11,6 +11,31 @@ Remember, the fate of the Rebellion literally hangs in the balance -- literally.
 
 coding:
 
--establish word bank
--words will be strings [?]
--use onkeyup function or similar to detect user input
+Variables:
+    -Word bank
+    -User life points (wrong guesses remaining)
+    -Guessword array
+    -Wrong letter array
+    -Win/Loss stats
+
+
+Refresh loop:
+    -Clear wrong guess array
+    -Clear guessword array
+    -Choose word at random
+    -Guessword array creation
+
+Game Loop:
+    -Run Refresh loop
+    -Define win/loss conditions
+    -Listen for keystrokes
+    On keystroke:
+    -See if keystroke with that letter is in guessword.
+        -IF so, then push that letter to the guessword array in html
+        -IF not, then take away a life point and push the letter guessed to the guessed letter array
+    -Check if user has won 
+        -IF so, then add a point to the user win stat and run Refresh loop
+        -IF not, then 
+        -Check if user has lost
+            -IF so, then add a point to user loss stat and run Refresh loop
+            -IF not, then prompt user to type another key

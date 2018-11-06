@@ -88,9 +88,6 @@
         var word = words[Math.floor(Math.random() * words.length)];   
         // Guessword array population
         var answerArray = [];
-        //when a guess is correct
-        var correct = word.search();
-        //defining a guess when it's input
 
         function populateAnswer(){
         for (var i = 0; i < word.length; i++) {
@@ -138,14 +135,13 @@
         document.onkeyup = function(event){
             refresh();
             var guess = event.key;
-            if(event.keyCode >= 65 && event.keyCode <= 90) {
-                if (word.includes(guess)) { 
-                    document.getElementById('answerArray').innerHTML = correct;
-                    checkWin();
-                        if (won = true){
-                        // Show the answer and congratulate the player
-                        alert("The Force is strong with you, Padawan! The word was " + word + "!");
-                        refresh();
+            if (word.includes(guess)) { 
+                var correct = word.search();
+                document.getElementById('answerArray').innerHTML = correct;
+                checkWin();
+                if (won = true){
+                    // Show the answer and congratulate the player
+                    alert("The Force is strong with you, Padawan! The word was " + word + "!");
                 }
             }
             else {
@@ -156,7 +152,6 @@
                 }
 
             }
-        }
 }
     </script>
 
