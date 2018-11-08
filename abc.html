@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HANGMAN HOTH - ICE PLANET</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">;
+</head>
+
+<body style=background-image:url(/assets/images/wampa.jpg)>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">HANGMAN HOTH <br> ICE PLANET</h1>
+            <p class="lead">Object of the Game: Guess what word is hidden in the empty spaces.</p>
+
+            <p>Gameplay: You play by guessing the letters, typing them on the keyboard. When you guess correctly, the
+                spaces that have the letter that you guessed will be revealed.
+                However, when you guess incorrectly, one of your seven incorrect guesses is eliminated: one guess each
+                for head, torso, each arm, each leg -- and your lightsaber, your
+                last-ditch chance at saving yourself from being TORN LIMB FROM LIMB BY THE WAMPA.</p>
+
+            <p>Remember, the fate of the Rebellion literally hangs in the balance -- literally.
+            </p>
+        </div>
+    </div>
+
+    <div id="message">
+    </div>
+    <br>
+    <div id="playAgain">
+    </div>
+    <div id="answer">
+        <p>YOUR PUZZLE:</p>
+        <h3 id="answerArray"></h3>
+    </div>
+
+    <div id="incorrect">
+        <p>GUESSES REMAINING:</p>
+        <h3 id="lifePoints"></h3>
+    </div>
+
+    <div id="guessed">
+        <p>LETTERS ALREADY GUESSED:</p>
+        <h3 id="guessedLetters"></h3>
+    </div>
+
+    <div id="wins">
+        <p>WINS SO FAR:</p>
+        <h3 id="winsSoFar"></h3>
+    </div>
+    <div id="losses">
+        <p>LOSSES SO FAR:</p>
+        <h3 id="lossesSoFar"></h3>
+    </div>
+
+
+    <script>
+        //First, the variables:
+        // Create an array of words
+        var words = [
+            "hoth",
+            "wampa",
+            "snow",
+            "lightsaber",
+            "speeder",
+            "secret base",
+            "republic",
+            "jedi",
+            "resistance",
+            "empire",
+            "tauntaun",
+            "wookie",
+            "millenium falcon",
+            "snowstorm",
+            "droid",
+            "ice cave",
+            "attack",
+            "escape",
+        ];
+        //User life points
+        var lifePoints = 7;
+        //Default wins
+        var wins = 0;
+        //Default losses
+        var losses = 0;
+        // Word picker
+        var word = words[Math.floor(Math.random() * words.length)];   
+        // Guessword array population
+        var answerArray = [];
+
+        function populateAnswer(){
+        for (var i = 0; i < word.length; i++) {
+            answerArray[i] = "_";
+        }
+    };      
+        // Wrong letter array
+        var guessed = [];
+        //Games won
+        var won = false;
+        function checkWin(){
+            if (answerArray === word){
+            won = true;
+            document.getElementById('winsSoFar').innerHTML = (wins + i++);
+        }
+    }
+
+        //Games lost
+        var lost = false;
+        function checkLose(){
+            if (lifePoints === 0){
+            lost = true;
+            document.getElementById('lossesSoFar').innerHTML = (wins + i++);
+        }
+    }
+
+        //Refresh loop:
+        function refresh() {
+        //Clear the guessed letters array.
+        document.getElementById('guessedLetters').innerHTML = guessed;
+        //Clear the guessword array.
+        document.getElementById('answerArray').innerHTML = [];
+        //Pick a guessword.
+        word;
+        //Populate the guessword array.
+        populateAnswer(word);
+        document.getElementById('answerArray').innerHTML = answerArray;
+        //Prompt user to begin game.
+        document.getElementById('message').innerHTML = "<h4>PRESS ANY KEY TO WIN YOUR FREEDOM<h4>"
+
+        }
+    </script>
+
+
+</div>
+</body>
+
+</html>

@@ -8,23 +8,27 @@
 
 var selectableWords =           // Word list
     [
-        "CSHARP",
-        "CPLUSPLUS",
-        "RUBYONRAILS",
-        "PYTHON",
-        "JAVASCRIPT",
-        "ANSIC",
-        "COBOL",
-        "FORTRAN",
-        "VISUALBASIC",
-        "COMPILER",
-        "ALGORITHM",
-        "QBASIC",
-        "ASPNET",
-        "FRAMEWORK",
+        "hoth",
+        "wampa",
+        "snow",
+        "lightsaber",
+        "speeder",
+        "secretbase",
+        "republic",
+        "jedi",
+        "resistance",
+        "empire",
+        "tauntaun",
+        "wookie",
+        "milleniumfalcon",
+        "snowstorm",
+        "droid",
+        "icecave",
+        "attack",
+        "escape",
     ];
 
-const maxTries = 10;            // Maximum number of tries player has
+const maxTries = 7;            // Maximum number of tries player has
 
 var guessedLetters = [];        // Stores the letters the user guessed
 var currentWordIndex;           // Index of the current word in the array
@@ -120,7 +124,6 @@ function checkWin() {
         document.getElementById("youwin-image").style.cssText = "display: block";
         document.getElementById("pressKeyTryAgain").style.cssText= "display: block";
         wins++;
-        winSound.play();
         hasFinished = true;
     }
 };
@@ -160,7 +163,7 @@ document.onkeydown = function(event) {
         // Check to make sure a-z was pressed.
         if(event.keyCode >= 65 && event.keyCode <= 90) {
             keySound.play();
-            makeGuess(event.key.toUpperCase());
+            makeGuess(event.key.toLowerCase());
             updateDisplay();
             checkWin();
             checkLoss();

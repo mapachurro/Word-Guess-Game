@@ -74,14 +74,14 @@
             "snow",
             "lightsaber",
             "speeder",
-            "secretbase",
+            "secret base",
             "republic",
             "jedi",
             "resistance",
             "empire",
             "tauntaun",
             "wookie",
-            "milleniumfalcon",
+            "millenium falcon",
             "snowstorm",
             "droid",
             "ice cave",
@@ -101,6 +101,11 @@
         //Variable to win the game
         var win = false;
 
+        //Function to replace characters at specific indices
+        Array.prototype.replaceAt=function(index, replacement) {
+        return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+        }
+
         //Guessword population function
         function populateAnswer(){
         for (var i = 0; i < word.length; i++) {
@@ -112,10 +117,29 @@
         // Wrong letter array
         var guessed = [];
 
-        Array.prototype.replaceAt = function(index, character) {
-        return this.substr(0, index) + character + this.substr(index+character.length);
+        // This function takes a letter and finds all instances of 
+        // appearance in the string and replaces them in the guess word.
+        function evaluateGuess(guess) {
+        // Array to store positions of letters in string
+        var positions = [];
+
+        // Loop through word finding all instances of guessed letter, store the indicies in an array.
+        for (var i = 0; i <words[answerArray].length; i++) {
+        if(words[answerArray][i] === letter) {
+            positions.push(i);
+            }
         }
 
+        // if there are no indicies, remove a lifepoint
+        if (positions.length <= 0) {
+        lifePoints--;
+        } else {
+        // Loop through all the indicies and replace the '_' with a letter.
+        for(var i = 0; i < positions.length; i++) {
+            answerArray[positions[i]] = letter;
+        }
+    }
+};
 
         //Games lost
         var lost = false;
@@ -129,6 +153,7 @@
         function checkWin() {
             if(answerArray.indexOf("_") === -1){
                 wins++;
+                won = true;
             }
         }
 
@@ -151,6 +176,8 @@
         document.getElementById('winsSoFar').innerHTML = wins;
         document.getElementById('lossesSoFar').innerHTML = losses;
         document.getElementById('lifePoints').innerHTML = lifePoints;
+        // Build an index of the guessword.
+        answerArray = Math.floor(Math.random() * (words.length));
         }
 
 
@@ -167,21 +194,18 @@
             var guess = event.key;
             var guessPresent = (word.includes(guess));
             if ((guessPresent === true) && (event.keyCode>=65 && event.keyCode<=90)) { 
-                var correctindex = word.indexOf(guess);
-                answerArray.replaceAt(correctindex, guess);
+                evaluateGuess(guess);
                 document.getElementById('answerArray').innerHTML = answerArray;
                 checkWin();
-                if (won === true){
+                if (won === true){  
                     // Show the answer and congratulate the player
                     alert("The Force is strong with you, Padawan! The word was " + word + "!");
-                }
-            
+                } 
                 else{
-                for (lifePoints = 7; lifePoints >= 0; lifePoints--) {
+                lifePoints--;
                 document.getElementById('lifePoints').innerHTML = lifePoints;
                 guessed.push(event.key);
                 document.getElementById('guessedLetters');
-                }
             }
             }
         }

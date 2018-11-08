@@ -30,8 +30,11 @@ Game Loop:
     -Define win/loss conditions
     -Listen for keystrokes
     On keystroke:
+    -Check to ensure that guess is alphabetic.
+    -Check to ensure that guess has not been guessed before.
     -See if keystroke with that letter is in guessword.
-        -IF so, then push that letter to the guessword array in html
+        -IF so, then return the ind(ices) of the letter in the guessword
+            -And push the guess to the corresponding indices of the guessword array in html
         -IF not, then take away a life point and push the letter guessed to the guessed letter array
     -Check if user has won 
         -IF so, then add a point to the user win stat and run Refresh loop
