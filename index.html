@@ -90,101 +90,116 @@
         ];
         //User life points
         var lifePoints = 7;
+        // Wrong letter array
+        var guessed = [];
+        //index of guessword
+        var wordIndex
+        // Guessword array population
+        var answerArray = [];
+        //Prompter for game reset
+        var finished = false;
         //Default wins
         var wins = 0;
         //Default losses
         var losses = 0;
+
+
         // Word picker
         var word = words[Math.floor(Math.random() * words.length)];   
-        // Guessword array population
-        var answerArray = [];
-        //Variable to win the game
-        var win = false;
-
+      
         //Guessword population function
         function populateAnswer(){
         for (var i = 0; i < word.length; i++) {
-            answerArray[i] = "_";
+            answerArray.push("_");
         }
     };   
-    
-    
-        // Wrong letter array
-        var guessed = [];
-
-        Array.prototype.replaceAt = function(index, character) {
-        return this.substr(0, index) + character + this.substr(index+character.length);
-        }
-
-
-        //Games lost
-        var lost = false;
-        function checkLose(){
-            if (lifePoints < 1){
-            losses++;
-            document.getElementById('lossesSoFar').innerHTML = losses;
-        }
-    }
-        //Establish win condition.
-        function checkWin() {
-            if(answerArray.indexOf("_") === -1){
-                wins++;
-            }
-        }
 
         //Refresh loop:
         function refresh() {
-        //Clear the guessed letters array.
+        //Update the guessed letters array.
         document.getElementById('guessedLetters').innerHTML = guessed;
-        //Clear the guessword array.
-        document.getElementById('answerArray').innerHTML = [];
-        //Pick a guessword.
-        //Populate the guessword array.
-        populateAnswer(word);
+        //Update the guessword array.
         document.getElementById('answerArray').innerHTML = answerArray;
-        }
-
-
-        //Prompt user to begin game.
-        function gamePrompt(){
-        document.getElementById('message').innerHTML = "<h4>PRESS ANY KEY TO WIN YOUR FREEDOM<h4>";
+        //Update win/loss counter.
         document.getElementById('winsSoFar').innerHTML = wins;
         document.getElementById('lossesSoFar').innerHTML = losses;
-        document.getElementById('lifePoints').innerHTML = lifePoints;
+        }
+        
+
+        //Populate answerArray
+        var answerArray = "";
+        for (var i = 0; i < word.length; i++){
+            word += word[i];
         }
 
 
-        // Now, code the game itself:
-        gamePrompt();
-        //Populate the guessword array.
-        word;
-        populateAnswer(word);
-        document.getElementById('answerArray').innerHTML = answerArray;
+        function evaluateGuess(guess){
+            var indices = [];
 
-        //Make a guess!
-        document.onkeyup = function(event) {
-            (event.key.toLowerCase());
-            var guess = event.key;
-            var guessPresent = (word.includes(guess));
-            if ((guessPresent === true) && (event.keyCode>=65 && event.keyCode<=90)) { 
-                var correctindex = word.indexOf(guess);
-                answerArray.replaceAt(correctindex, guess);
-                document.getElementById('answerArray').innerHTML = answerArray;
-                checkWin();
-                if (won === true){
-                    // Show the answer and congratulate the player
-                    alert("The Force is strong with you, Padawan! The word was " + word + "!");
+
+            for (var i = 0; i < words[wordIndex].length; i++){
+                if(words[wordIndex][i] === guess) {
+                    indices.push(i)
                 }
+            }
+        }
+
+    //If the guess isn't in the word, remove a lifepoint
+            if (indices.length <= 0) {
+                lifepoints--;
             
-                else{
-                for (lifePoints = 7; lifePoints >= 0; lifePoints--) {
-                document.getElementById('lifePoints').innerHTML = lifePoints;
-                guessed.push(event.key);
-                document.getElementById('guessedLetters');
+
+            } else {
+                for (var i = 0; i < indices.length; i++){
+                    answerArray[indices[i]] = guess;
                 }
+            };
+
+     //Establish win condition.
+        function checkWin() {
+            if(answerArray.indexOf("_") === -1){
+                wins++;
+                finished = true;
             }
-            }
+        };
+
+    //Games lost
+        function checkLose(){
+            if(lifePoints <= 0){
+            losses++;
+            finished = true;
         }
+    }
+
+    //take a guess from user
+function makeGuess(guess) {
+    if(lifePoints > 0) {
+        if(guessed.indexOf(guess) === -1) {
+            guessed.push(guess);
+            evaluateGuess(guess);
+        }
+    }
+};
+
+
+
+
+        //PLAY!
+        document.onkeyup = function(event) {
+            if(finished) {
+                refresh();
+                finished = false;
+            } else {
+
+            }
+            }
+            if (event.keyCode>=65 && event.keyCode<=90) { 
+                makeGuess(event.key.toLowerCase());
+                refresh();
+                checkWin();
+                checkLoss();
+                
+            }
 
     </script>
 

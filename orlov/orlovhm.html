@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
         <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 class="display-4">HANGMAN HOTH | <br> ICE PLANET</h1>
@@ -31,12 +30,11 @@
                 </div>
             </div>
 
-            
     <div class="container">
             <div class="row">
                 <div class="col-md-6 gameplay-column">
-                    <img id="youwin-image" src="assets/images/you-win.png" alt="Winning Image" />
-                    <img id="gameover-image" src="assets/images/gameover.png" alt="Game Over Image" />
+                    <img id="youwin-image" src="assets/images/OneArm-ESB.jpg" alt="YOU DEFEATED THE WAMPAAAAA" />
+                    <img id="gameover-image" src="assets/images/wampaattack.jpg" alt="Game Over Image" />
                     <h2 id="pressKeyTryAgain">Press Any Key to Try Again!</h2>
                     <img id="hangmanImage" src="" alt="" />
                 </div>
@@ -57,30 +55,25 @@
                         <p>YOUR PUZZLE:</p>
                         <h3 id="currentWord"></h3>
                     </div>
-                
                     <div id="incorrect">
                         <p>GUESSES REMAINING:</p>
-                        <h3 id="remainingGuesses"></h3>
+                        <h3 id="lifePoints"></h3>
                     </div>
-                
                     <div id="guessed">
                         <p>LETTERS ALREADY GUESSED:</p>
                         <h3 id="guessedLetters"></h3>
                     </div>
-                
                     <div id="wins">
                         <p>WINS SO FAR:</p>
                         <h3 id="totalWins"></h3>
                     </div>
                     <div id="losses">
                         <p>LOSSES SO FAR:</p>
-                        <h3 id="lossesSoFar"></h3>
+                        <h3 id="totalLosses"></h3>
                     </div>
-        
                 </div>
               </div>
         </div>
-
 
     <script>
         resetGame();

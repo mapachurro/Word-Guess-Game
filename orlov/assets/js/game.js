@@ -6,7 +6,7 @@
 
 'use strict';
 
-var selectableWords =           // Word list
+var words =           // Word list
     [
         "hoth",
         "wampa",
@@ -28,37 +28,30 @@ var selectableWords =           // Word list
         "escape",
     ];
 
-const maxTries = 7;            // Maximum number of tries player has
+const maxTries = 7;            // Number of guesses player has
 
-var guessedLetters = [];        // Stores the letters the user guessed
-var currentWordIndex;           // Index of the current word in the array
-var guessingWord = [];          // This will be the word we actually build to match the current word
-var remainingGuesses = 0;       // How many tries the player has left
-var hasFinished = false;        // Flag for 'press any key to try again'     
-var wins = 0;                   // How many wins has the player racked up
-
-// Game sounds
-var keySound = new Audio('./assets/sounds/typewriter-key.wav');
-var winSound = new Audio('./assets/sounds/you-win.wav');
-var loseSound = new Audio('./assets/sounds/you-lose.wav');
+var guessedLetters = [];        // Array of guessed letters
+var guessWordIndex;           // Guessword index
+var guessWord = [];          // The array being filld in by player
+var lifePoints = 0;       // Guesses remaining
+var finished = false;        // Flag for 'press any key to try again'     
+var wins = 0;                   // How many wins so far
+var losses =0;                  // How many losses so far
 
 // Reset our game-level variables
 function resetGame() {
-    remainingGuesses = maxTries;
+    lifePoints = maxTries;
 
     // Use Math.floor to round the random number down to the nearest whole.
-    currentWordIndex = Math.floor(Math.random() * (selectableWords.length));
+    guessWordIndex = Math.floor(Math.random() * (words.length));
 
     // Clear out arrays
     guessedLetters = [];
-    guessingWord = [];
-
-    // Make sure the hangman image is cleared
-    document.getElementById("hangmanImage").src = "";
+    guessWord = [];
 
     // Build the guessing word and clear it out
-    for (var i = 0; i < selectableWords[currentWordIndex].length; i++) {
-        guessingWord.push("_");
+    for (var i = 0; i < words[guessWordIndex].length; i++) {
+        guessWord.push("_");
     }   
 
     // Hide game over and win images/text
@@ -74,24 +67,19 @@ function resetGame() {
 function updateDisplay() {
 
     document.getElementById("totalWins").innerText = wins;
+    document.getElementById("totalLosses").innerText = losses;
 
     // Display how much of the word we've already guessed on screen.
     // Printing the array would add commas (,) - so we concatenate a string from each value in the array.
-    var guessingWordText = "";
-    for (var i = 0; i < guessingWord.length; i++) {
-        guessingWordText += guessingWord[i];
+    var guessWordText = "";
+    for (var i = 0; i < guessWord.length; i++) {
+        guessWordText += guessWord[i];
     }
 
     //
-    document.getElementById("currentWord").innerText = guessingWordText;
-    document.getElementById("remainingGuesses").innerText = remainingGuesses;
+    document.getElementById("currentWord").innerText = guessWordText;
+    document.getElementById("lifePoints").innerText = lifePoints;
     document.getElementById("guessedLetters").innerText = guessedLetters;
-};
-
-
-// Updates the image depending on how many guesses
-function updateHangmanImage() {
-    document.getElementById("hangmanImage").src = "assets/images/" + (maxTries - remainingGuesses) + ".png";
 };
 
 // This function takes a letter and finds all instances of 
@@ -101,30 +89,30 @@ function evaluateGuess(letter) {
     var positions = [];
 
     // Loop through word finding all instances of guessed letter, store the indicies in an array.
-    for (var i = 0; i < selectableWords[currentWordIndex].length; i++) {
-        if(selectableWords[currentWordIndex][i] === letter) {
+    for (var i = 0; i < words[guessWordIndex].length; i++) {
+        if(words[guessWordIndex][i] === letter) {
             positions.push(i);
         }
     }
 
-    // if there are no indicies, remove a guess and update the hangman image
+    // if there are no indicies, remove a guess
     if (positions.length <= 0) {
-        remainingGuesses--;
-        updateHangmanImage();
+        lifePoints--;
+
     } else {
         // Loop through all the indicies and replace the '_' with a letter.
         for(var i = 0; i < positions.length; i++) {
-            guessingWord[positions[i]] = letter;
+            guessWord[positions[i]] = letter;
         }
     }
 };
-// Checks for a win by seeing if there are any remaining underscores in the guessingword we are building.
+// Checks for a win by seeing if there are any remaining underscores in the guessWord we are building.
 function checkWin() {
-    if(guessingWord.indexOf("_") === -1) {
+    if(guessWord.indexOf("_") === -1) {
         document.getElementById("youwin-image").style.cssText = "display: block";
         document.getElementById("pressKeyTryAgain").style.cssText= "display: block";
         wins++;
-        hasFinished = true;
+        finished = true;
     }
 };
 
@@ -132,37 +120,35 @@ function checkWin() {
 // Checks for a loss
 function checkLoss()
 {
-    if(remainingGuesses <= 0) {
-        loseSound.play();
+    if(lifePoints <= 0) {
         document.getElementById("gameover-image").style.cssText = "display: block";
         document.getElementById("pressKeyTryAgain").style.cssText = "display:block";
-        hasFinished = true;
+        losses++;
+        finished = true;
     }
 }
 
 // Makes a guess
 function makeGuess(letter) {
-    if (remainingGuesses > 0) {
+    if (lifePoints > 0) {
         // Make sure we didn't use this letter yet
         if (guessedLetters.indexOf(letter) === -1) {
             guessedLetters.push(letter);
             evaluateGuess(letter);
         }
     }
-    
 };
 
 
 // Event listener
 document.onkeydown = function(event) {
     // If we finished a game, dump one keystroke and reset.
-    if(hasFinished) {
+    if(finished) {
         resetGame();
-        hasFinished = false;
+        finished = false;
     } else {
         // Check to make sure a-z was pressed.
         if(event.keyCode >= 65 && event.keyCode <= 90) {
-            keySound.play();
             makeGuess(event.key.toLowerCase());
             updateDisplay();
             checkWin();
