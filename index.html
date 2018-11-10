@@ -104,6 +104,7 @@
         var wins = 0;
         //Default losses
         var losses = 0;
+        var guess = event.key;
 
 
         // Word picker
@@ -125,7 +126,9 @@
         console.log(answerArray);
         //Update win/loss counters.
         document.getElementById('winsSoFar').innerHTML = wins;
+        console.log(wins);
         document.getElementById('lossesSoFar').innerHTML = losses;
+        console.log(losses);
 
           var answerArray = "";
         for (var i = 0; i < word.length; i++){
@@ -137,9 +140,10 @@
         function evaluateGuess(guess) {
             var indices = [];
             
-            for (var i = 0; i < words[wordIndex].length; i++){
+            for (var i = 0; i < word[wordIndex].length; i++){
                 if(words[wordIndex][i] === guess) {
                     indices.push(i);
+                    console.log(indices);
                 }
             }
         
@@ -152,6 +156,7 @@
             } else {
                 for (var i = 0; i < indices.length; i++){
                     answerArray[indices[i]] = guess;
+                    console.log(answerArray);
                 }
             }
         };
@@ -161,6 +166,7 @@
             if(answerArray.indexOf("_") === -1){
                 wins++;
                 finished = true;
+                console.log(true);
             }
         };
 
@@ -169,8 +175,9 @@
             if(lifePoints <= 0){
             losses++;
             finished = true;
+            console.log(true);
         }
-    }
+        }
 
     //take a guess from user
 function makeGuess(guess) {
@@ -178,6 +185,7 @@ function makeGuess(guess) {
         if (guessed.indexOf(guess) === -1) {
             guessed.push(guess);
             evaluateGuess(guess);
+            console.log(evaluateGuess);
         }
     }
 };
@@ -186,9 +194,12 @@ function makeGuess(guess) {
         document.onkeyup = function(event) {
             if(finished === true) {
                 finished = false;
+                console.log(event.key);
+                console.log(finished);
             } else {
                 if(event.keyCode >= 65 && event.keyCode <= 90) { 
                     makeGuess(event.key.toLowerCase());
+                    console.log(makeGuess);
                     checkWin();
                     checkLoss();
                 }

@@ -1,8 +1,3 @@
-/*
-    HANGMAN SOURCE
-    Daniel Orlovsky
-    UNCC Coding Bootcamp 08/30/2017
-*/
 
 'use strict';
 
@@ -42,7 +37,7 @@ var losses =0;                  // How many losses so far
 function resetGame() {
     lifePoints = maxTries;
 
-    // Use Math.floor to round the random number down to the nearest whole.
+    // Use Math.floor to round the random number
     guessWordIndex = Math.floor(Math.random() * (words.length));
 
     // Clear out arrays
@@ -70,7 +65,6 @@ function updateDisplay() {
     document.getElementById("totalLosses").innerText = losses;
 
     // Display how much of the word we've already guessed on screen.
-    // Printing the array would add commas (,) - so we concatenate a string from each value in the array.
     var guessWordText = "";
     for (var i = 0; i < guessWord.length; i++) {
         guessWordText += guessWord[i];
@@ -92,6 +86,7 @@ function evaluateGuess(letter) {
     for (var i = 0; i < words[guessWordIndex].length; i++) {
         if(words[guessWordIndex][i] === letter) {
             positions.push(i);
+            console.log(letter);
         }
     }
 
@@ -103,10 +98,11 @@ function evaluateGuess(letter) {
         // Loop through all the indicies and replace the '_' with a letter.
         for(var i = 0; i < positions.length; i++) {
             guessWord[positions[i]] = letter;
+
         }
     }
 };
-// Checks for a win by seeing if there are any remaining underscores in the guessWord we are building.
+// Checks for a win by seeing if there are any remaining underscores.
 function checkWin() {
     if(guessWord.indexOf("_") === -1) {
         document.getElementById("youwin-image").style.cssText = "display: block";
