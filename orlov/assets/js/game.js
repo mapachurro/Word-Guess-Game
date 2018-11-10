@@ -118,8 +118,7 @@ function checkWin() {
 
 
 // Checks for a loss
-function checkLoss()
-{
+function checkLoss(){
     if(lifePoints <= 0) {
         document.getElementById("gameover-image").style.cssText = "display: block";
         document.getElementById("pressKeyTryAgain").style.cssText = "display:block";

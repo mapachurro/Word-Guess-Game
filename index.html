@@ -66,6 +66,8 @@
 
 
     <script>
+        'use strict';
+
         //First, the variables:
         // Create an array of words
         var words = [
@@ -93,7 +95,7 @@
         // Wrong letter array
         var guessed = [];
         //index of guessword
-        var wordIndex
+        var wordIndex;
         // Guessword array population
         var answerArray = [];
         //Prompter for game reset
@@ -106,43 +108,41 @@
 
         // Word picker
         var word = words[Math.floor(Math.random() * words.length)];   
-      
-        //Guessword population function
-        function populateAnswer(){
+
+       // Build the guessing word and clear it out
         for (var i = 0; i < word.length; i++) {
-            answerArray.push("_");
-        }
-    };   
+        answerArray.push("_");
+        console.log(i);
+        };   
 
         //Refresh loop:
         function refresh() {
         //Update the guessed letters array.
         document.getElementById('guessedLetters').innerHTML = guessed;
+        console.log(guessed);
         //Update the guessword array.
         document.getElementById('answerArray').innerHTML = answerArray;
-        //Update win/loss counter.
+        console.log(answerArray);
+        //Update win/loss counters.
         document.getElementById('winsSoFar').innerHTML = wins;
         document.getElementById('lossesSoFar').innerHTML = losses;
-        }
-        
 
-        //Populate answerArray
-        var answerArray = "";
+          var answerArray = "";
         for (var i = 0; i < word.length; i++){
             word += word[i];
+            console.log("Made it to the end of refresh", answerArray);
         }
+    }
 
-
-        function evaluateGuess(guess){
+        function evaluateGuess(guess) {
             var indices = [];
-
-
+            
             for (var i = 0; i < words[wordIndex].length; i++){
                 if(words[wordIndex][i] === guess) {
-                    indices.push(i)
+                    indices.push(i);
                 }
             }
-        }
+        
 
     //If the guess isn't in the word, remove a lifepoint
             if (indices.length <= 0) {
@@ -153,7 +153,8 @@
                 for (var i = 0; i < indices.length; i++){
                     answerArray[indices[i]] = guess;
                 }
-            };
+            }
+        };
 
      //Establish win condition.
         function checkWin() {
@@ -173,34 +174,27 @@
 
     //take a guess from user
 function makeGuess(guess) {
-    if(lifePoints > 0) {
-        if(guessed.indexOf(guess) === -1) {
+    if (lifePoints > 0) {
+        if (guessed.indexOf(guess) === -1) {
             guessed.push(guess);
             evaluateGuess(guess);
         }
     }
 };
 
-
-
-
         //PLAY!
         document.onkeyup = function(event) {
-            if(finished) {
-                refresh();
+            if(finished === true) {
                 finished = false;
             } else {
-
+                if(event.keyCode >= 65 && event.keyCode <= 90) { 
+                    makeGuess(event.key.toLowerCase());
+                    checkWin();
+                    checkLoss();
+                }
             }
-            }
-            if (event.keyCode>=65 && event.keyCode<=90) { 
-                makeGuess(event.key.toLowerCase());
-                refresh();
-                checkWin();
-                checkLoss();
-                
-            }
-
+        };
+    
     </script>
 
 
